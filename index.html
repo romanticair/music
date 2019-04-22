@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>酷玩音乐盒</title>
+  <link rel="stylesheet" href="./css/main.css">
+</head>
+<body>
+  <div class="wrapper">
+    <!--loading-->
+    <div class="loading">
+      <div class="content1">
+        <div class="arc1"></div>
+        <div class="arc2"></div>
+        <div class="arc3"></div>
+        <div class="arc4"></div>
+      </div>
+      <div class="content2">
+        <div class="arc1"></div>
+        <div class="arc2"></div>
+        <div class="arc3"></div>
+        <div class="arc4"></div>
+      </div>
+    </div>
+
+    <!--首页-->
+    <div class="main">
+      <!--顶部栏-->
+      <header>
+        <h3>制造酷玩音乐播放器</h3>
+        <div class="tip"></div>
+      </header>
+
+      <!--音乐列表-->
+      <section class="music-list">
+        <ul>
+          <li>
+            <h3>不将就</h3>
+            <p>李荣浩</p>
+          </li>
+          <li>
+            <h3>不将就</h3>
+            <p>李荣浩</p>
+          </li>
+        </ul>
+      </section>
+
+      <!--底部-->
+      <footer>
+        <img class="mark" src="img/miaov.jpg"></img>
+        <div class="about">
+          <h3>酷玩音乐</h3>
+          <p>音乐播放器</p>
+        </div>
+      </footer>
+    </div>
+
+    <!--音乐歌词页以及评论信息-->
+    <div class="lyric">
+      <!--顶部栏-->
+      <header>
+        <h3>逆战</h3>
+        <h5>张杰</h5>
+        <div class="detail-arrow"></div>
+      </header>
+
+      <!--字幕-->
+      <section>
+        <ul>
+          <li>哎呀呀</li>
+          <li>宠上天变</li>
+          <li>赶船上街当当当</li>
+        </ul>
+      </section>
+
+      <!--播放进度-->
+      <div class="progress">
+        <div class="start">00:00</div>
+        <div class="indicator">
+          <div class="loading-bar"></div>
+          <div class="circle"></div>
+        </div>
+        <div class="end">60:00</div>
+      </div>
+
+      <!--控制器-->
+      <div class="controller">
+        <div class="prev">
+          <img src="./img/details_prev.png" alt="">
+        </div>
+        <div class="play-pause">
+          <img src="./img/details_pause.png" alt="">
+        </div>
+        <div class="next">
+          <img src="./img/details_next.png" alt="">
+        </div>
+      </div>
+
+      <!--评论信息-->
+      <div class="comment">
+        <form action="">
+          <textarea placeholder="文明上网，例行留言"></textarea>
+          <input type="button" value="发表">
+        </form>
+
+        <ul class="message">
+          <li>评论区域</li>
+          <li>评论区域</li>
+        </ul>
+      </div>
+
+      <!--当前位置-->
+      <div class="location">
+        <div class="left active"></div>
+        <div class="right"></div>
+      </div>
+    </div>
+    <!--音频文件-->
+    <audio id="music"></audio>
+  </div>
+
+  <script src="./lib/jquery-3.3.1.js"></script>
+  <script src="./js/main.js"></script>
+</body>
+</html>
