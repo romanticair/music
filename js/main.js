@@ -37,6 +37,10 @@ $(function() {
     musicDetail.init()
     // 音乐播放器操作
     musicAudio.init()
+
+    $(document).on(touchmove, function (ev) {
+      ev.preventDefault()
+    })
   }
 
   // 兼容PC端和移动端
@@ -108,7 +112,7 @@ $(function() {
       // 注册触碰滑动事件 注意要阻止默认行为，否则页面就滑动了
       $oUl.on(touchstart, function (ev) {
         ev.preventDefault()
-        ev.stopPropagation()
+        // ev.stopPropagation()
         clearInterval(timer)
         // 初始化开关
         onoffT, onoffB = true
@@ -126,6 +130,11 @@ $(function() {
         // 存储加载音乐的列表 li(用于判断是否发送请求)
         var $loadingLi
 
+        // 注册滑到下底栏，直接触发 touchend 事件
+        $footer.on(touchmove + '.enter', function (ev) {
+          $oUl.trigger(touchend + '.move')
+        })
+
         $(this).on(touchmove + '.move', function (ev) {
           // 拉动列表时，不要点播音乐
           onoffPlay = true
@@ -135,6 +144,7 @@ $(function() {
           speed = touch.clientY - preY
           // 记住刚才的位置，以测速度
           preY = touch.clientY
+
           if (curT >= 0 ) {
             // 滑动到顶部，界限 -- 结束时反弹
             if (onoffT) {
@@ -144,6 +154,7 @@ $(function() {
             // 第一次为 0，降低拉伸距离
             $(this).css('transform', 'translateY(' + (touch.clientY - downY)/3 + 'px)')
           }
+
           else if (curT <= (parentH - childH)) {
             // 滑动到底部，界限 -- ajax 加载新数据 -- 结束时反弹
             if (onoffB) {
@@ -154,6 +165,7 @@ $(function() {
             }
             $(this).css('transform', 'translateY(' + ((parentH - childH) + (touch.clientY - downY)/3) + 'px)')
           }
+
           else {
             // 直接滑动
             $(this).css('transform', 'translateY(' + (downT + touch.clientY - downY) + 'px)')
@@ -161,11 +173,11 @@ $(function() {
         })
 
         $(this).on(touchend + '.move', function (ev) {
-          $(this).off('.move')
           // 请求新一页音乐列表
           if ($loadingLi) {
             $loadingLi.remove()
             $loadingLi = null
+
             $.ajax({
               url: 'page-music.php',
               type: 'get',
@@ -182,10 +194,12 @@ $(function() {
                 data.forEach(function (obj, mIndex) {
                   html += template.replace('?', obj.id).replace('title', obj.title).replace('singer', obj.singer)
                 })
+
                 $(this).append(html)
                 // 更新 childH 的高度
                 childH = $(this).height()
                 page++
+
               }).bind($(this)
               )
             })
@@ -204,21 +218,29 @@ $(function() {
                   $(this).css('transition', '.2s')
                   $(this).css('transform', 'translateY(0px)')
                 }
+
                 else if (curT <= (parentH - childH)) {
                   // 下边界
                   $(this).css('transition', '.2s')
                   $(this).css('transform', 'translateY(' + (parentH - childH) + 'px)')
                 }
               }
+
               // 直接滑动的情况，直至速度小于 1
               else {
                 speed *= 0.9
                 $(this).css('transform', 'translateY(' + (curTop + speed) + 'px)')
               }
-            }).bind($(this)), 50)
+
+            }).bind($(this)), 13)
           }
+
           onoffPlay = false
+          $(this).off(touchmove + '.move')
+          $(this).off(touchend + '.move')
+          $footer.off(touchmove + '.enter')
         })
+
         $(this).on('transitionend', function () {
           $(this).css('transition', '')
         })
@@ -261,7 +283,7 @@ $(function() {
     }
   })($oUl)
 
-  // 音乐播放器操作
+  // 音乐歌词页面操作
   var musicDetail = (function () {
     var lyricArr, lyricH, $lyricLi
     var downX, timer
@@ -495,7 +517,7 @@ $(function() {
         offset = (disX -17) / $(this).width()
         clearInterval(timer)
         $(document).on(touchmove + '.move', (function (ev) {
-          ev.stopPropagation()
+          ev.preventDefault()
           var touch = ev.originalEvent.changedTouches ? ev.originalEvent.changedTouches[0] : ev.originalEvent
           var distance = touch.clientX - preX - 17 + disX
           // 拉到最左

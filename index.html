@@ -2,7 +2,7 @@
 <html lang="zh-cn">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no">
   <title>酷玩音乐盒</title>
   <link rel="stylesheet" href="./css/main.css">
 </head>
@@ -122,5 +122,17 @@
 
   <script src="./lib/jquery-3.3.1.js"></script>
   <script src="./js/main.js"></script>
+  <script>
+    // 解决页面被软键盘遮挡的现象
+    if (/Android [4-6]/.test(navigator.appVersion)) {
+      window.addEventListener('resize', function () {
+        if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
+          window.setTimeout(function () {
+            document.activeElement.scrollIntoView(true)
+          }, 0)
+        }
+      })
+    }
+  </script>
 </body>
 </html>

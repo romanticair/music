@@ -347,6 +347,10 @@ ul {
   background: #9babb2;
 }
 
+textarea:focus {
+  font-size: 16px !important;
+}
+
 .lyric .comment input[type="button"] {
   width: 100%;
   height: 20%;
